@@ -48,7 +48,7 @@ app.post('/user', (req, res) => {
         fs.writeFileSync(dataFilePath, JSON.stringify(data))
         res.send({
             "message" : "POST Success",
-            "user id" : userUuid
+            "userId" : userUuid
         })
     } catch (err) {
         console.log(err)
@@ -76,7 +76,7 @@ app.put('/user/:id', (req, res) => {
         fs.writeFileSync(dataFilePath, JSON.stringify(data))
         res.send({
             "message" : "PUT Success",
-            "user id" : userUuid
+            "userId" : userUuid
         })
     } catch (err) {
         console.log(err)
@@ -97,7 +97,7 @@ app.delete('/user/:id', (req, res) => {
         fs.writeFileSync(dataFilePath, JSON.stringify(data))
         res.send({
             "message" : "DELETE Success",
-            "user id" : userUuid
+            "userId" : userUuid
         })
     } catch (err) {
         console.log(err)
