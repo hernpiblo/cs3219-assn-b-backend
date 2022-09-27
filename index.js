@@ -3,8 +3,6 @@ const fs = require("fs")
 const { v4: uuidv4 } = require('uuid');
 
 const cors = require("cors")
-
-const port = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -38,7 +36,7 @@ app.post('/user', (req, res) => {
     try {
         const user = req.body
         if (!user.name || !user.age || !user.phone) {
-            res.send({"message" : "Wrong format for POST request body"})
+            res.status(404).send({"message" : "Wrong format for POST request body"})
             return
         }
 
@@ -61,7 +59,7 @@ app.put('/user/:id', (req, res) => {
         const user = req.body
         const userUuid = req.params.id
         if (!user.name || !user.age || !user.phone) {
-            res.send({"message" : "Wrong format for PUT request body"})
+            res.status(404).send({"message" : "Wrong format for PUT request body"})
             return
         }
         
@@ -104,7 +102,4 @@ app.delete('/user/:id', (req, res) => {
     }
 });
 
-
-app.listen(port, function () {
-    console.log("Running app on port " + port);
-});
+module.exports = app
