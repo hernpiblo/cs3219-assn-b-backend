@@ -10,7 +10,7 @@ const dataFilePath = "./data.json"
 
 // Base url
 app.get('/', (req, res) => {
-    res.send("Hello World from index.js with GA-EB CD")
+    res.send("Hello World from index.js")
 })
 
 // Get all user
