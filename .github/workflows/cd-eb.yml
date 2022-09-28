@@ -19,6 +19,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install awsebcli
+      - name: Initialise Elastic Beanstalk
+        run: |
+          eb init --region ap-southeast-1 --platform node.js cs3219-assn-b-backend-eb
       - name: Deploy to Elastic Beanstalk
         run: |
-          eb deploy
+          eb deploy Cs3219assnbbackendeb-env
