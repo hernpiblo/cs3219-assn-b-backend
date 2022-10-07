@@ -3,6 +3,7 @@ const fs = require("fs")
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios')
 const Redis = require('redis')
+const {Client} = require('pg')
 
 const cors = require("cors")
 const app = express();
@@ -106,6 +107,14 @@ app.delete('/user/:id', (req, res) => {
 
 // Get Redis data
 const redisClient = Redis.createClient();
+const pgClient = new Client({
+    host: 'localhost',
+    user: 'postgres',
+    password: 'postgres',
+    port: 5432,
+    database: 'cs3219'
+})
+pgClient.connect()
 
 app.get('/redis', async (req, res) => {
     redisClient.get('modules', async (err, modulesData) => {
@@ -114,12 +123,19 @@ app.get('/redis', async (req, res) => {
         if (modulesData != null) {
             return res.json(JSON.parse(modulesData))
         } else {
-            axios.get("https://api.nusmods.com/v2/2022-2023/moduleList.json")
-            .then(res => res.data)
-            .then(data => {
-                redisClient.set("modules", JSON.stringify(data))
-                return res.json(data)
-            })
+            // axios.get("https://api.nusmods.com/v2/2022-2023/moduleList.json")
+            // .then(res => res.data)
+            // .then(data => {
+            //     redisClient.set("modules", JSON.stringify(data))
+            //     return res.json(data)
+            // })
+            pgClient
+                .query('SELECT * FROM "redisTable" UNION ALL SELECT * FROM "redisTable" UNION ALL SELECT * FROM "redisTable" UNION ALL SELECT * FROM "redisTable" UNION ALL SELECT * FROM "redisTable"')
+                .then(data => {
+                    redisClient.set("modules", JSON.stringify(data.rows))
+                    return res.json(data.rows)
+                })
+                .catch(e => console.error(e.stack))
         }
     })
 });
